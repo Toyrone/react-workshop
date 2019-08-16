@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Helloworld from './components/Helloworld';
+import SearchableList from './components/SearchableList';
+import ListWithArchive from './components/withArchiveList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+	state = {
+		lists: [
+			{
+				name: 'To do',
+				id: 0
+			},
+			{
+				name: 'Great',
+				id: 1
+			},
+			{
+				name: 'Done',
+				id: 2
+			},
+			{
+				name: 'Doing',
+				id: 3
+			}
+		]
+	}
+
+	render () {
+		return (
+			<div className="App">
+				<Helloworld />
+				<ListWithArchive lists={ this.state.lists } />
+				{/* <SearchableList  /> */}
+			</div>
+		);
+	}
 }
 
 export default App;
