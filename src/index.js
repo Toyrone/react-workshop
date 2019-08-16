@@ -1,20 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './reducers/index';
+import { createStore, combineReducers } from 'redux';
+import { todosReducer, filterReducer } from './reducers/index';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const rootReducer = combineReducers({
+	todosReducer,
+	filterReducer
+})
 
-const store = createStore(reducer);
+const store = createStore(rootReducer);
+
+// ReactDOM.render(
+// 	<Provider store={store}>
+// 		<App /> 
+// 	</Provider>,
+// 	document.getElementById('root')
+// );
+
+function TodoApp() {
+	return <div>Todo App</div>;
+}
 
 ReactDOM.render(
-	<Provider store={store}>
-		<App /> 
-	</Provider>,
+	<TodoApp />,
 	document.getElementById('root')
 );
 

@@ -1,20 +1,35 @@
+const TODO_ADD = 'TODO_ADD'; 
+const TODO_TOGGLE = 'TODO_TOGGLE'; 
+const FILTER_SET = 'FILTER_SET';
 
 const initialState = {
-	state: {
-		tech: 'React'
-	}
-}
+	todos: [
+		{ id: '0', name: 'learn redux' }, 
+		{ id: '1', name: 'learn mobx' }
+	],
+	filter: 'SHOW_ALL'
+};
 
-function reducer(state = initialState, action) {
+export function todosReducer(state = initialState.todos, action) {
 	switch (action.type) {
-		case 'withdraw':
-			return {
-				...state,
-				...{ tech: action.tech }
-			};
+		case TODO_ADD:
+			return { ...state.todos, ...action, completed: false };
+		case TODO_TOGGLE:
+			return state.todos.map(todo => 
+				todo.id === action.todo.id ? 
+					Object.assign({}, todo, { completed: !todo.completed }) :
+					todo
+			)
 		default:
 			return state;
 	}
 }
 
-export default reducer;
+export function filterReducer(state = initialState.filter, action) { 
+	switch(action.type) {
+		case FILTER_SET:
+			return action.filter;
+		default: 
+			return state;
+	}
+}
