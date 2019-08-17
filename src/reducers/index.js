@@ -13,15 +13,12 @@ const initialState = {
 export function todosReducer(state = initialState.todos, action) {
 	switch (action.type) {
 		case TODO_ADD:
-			return { ...state, ...{ ...action.todo, completed: false } };
+			const todo = { ...action.todo, completed: false };
+			return [ ...state, todo ];
 		case TODO_TOGGLE:
-			console.log(state.map(todo => 
-				todo.id === action.todo.id 
-				? Object.assign({}, todo, { completed: !todo.completed }) 
-				: todo));
 			return state.map(todo => 
 				todo.id === action.todo.id 
-				? Object.assign({}, todo, { completed: !todo.completed }) 
+				? { ...todo, completed: !todo.completed }
 				: todo
 			)
 		default:

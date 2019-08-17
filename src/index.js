@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, combineReducers, applyMiddleWare } from 'redux';
 import { Provider, connect } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { todosReducer, filterReducer } from './reducers/index';
 import TodosList from './components/TodosList';
+import CreateTodo from './components/CreateTodo';
+import uuid from 'uuid/v4';
+import { doAddTodo } from './actions/index';
 
 import './index.css';
 import App from './App';
@@ -14,7 +18,7 @@ const rootReducer = combineReducers({
 	filters: filterReducer
 })
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 // ReactDOM.render(
 // 	<Provider store={store}>
@@ -29,12 +33,19 @@ function mapStateToProps(state) {
 	};
 }
 
+function mapDispatchToPropsCreate(dispatch) {
+	return {
+		onAddTodo: name => dispatch(doAddTodo(uuid(), name))
+	}
+}
+const ConnectedTodoCreate = connect(null, mapDispatchToPropsCreate)(CreateTodo);
 const ConnectedTodoList = connect(mapStateToProps)(TodosList);
 
 function TodoApp() {
 	return (
 		<div>
 			<h3>Todo App</h3>
+			<ConnectedTodoCreate />
 			<ConnectedTodoList />
 		</div>
 	);
