@@ -4,7 +4,6 @@ import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import { todosReducer, filterReducer } from './reducers/index';
 import TodosList from './components/TodosList';
-import { doToggleTodo } from './actions/index';
 
 import './index.css';
 import App from './App';
@@ -24,34 +23,26 @@ const store = createStore(rootReducer);
 // 	document.getElementById('root')
 // );
 
+function mapStateToProps(state) {
+	return {
+	  todos: state.todos
+	};
+}
+
+const ConnectedTodoList = connect(mapStateToProps)(TodosList);
+
 function TodoApp() {
 	return (
 		<div>
 			<h3>Todo App</h3>
-			<TodosList 
-				todos={store.getState().todos} 
-				onToggleTodo={id => store.dispatch(doToggleTodo(id))} />
+			<ConnectedTodoList />
 		</div>
 	);
 }
 
-function mapStateToProps(state) {
-	return {
-	  todos: state.todoState,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		onToggleTodo: id => dispatch(doToggleTodo(id))
-	}
-}
-
-const ConnectedTodoApp = connect(mapStateToProps, mapDispatchToProps)(TodoApp);
-
 ReactDOM.render(
 	<Provider store={store}>
-		<ConnectedTodoApp />
+		<TodoApp />
 	</Provider>,
 	document.getElementById('root')
 );

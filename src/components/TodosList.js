@@ -1,14 +1,14 @@
 import React from 'react';
-import TodoItem from './TodoItem';
+import ConnectedTodoItem from './TodoItem';
 
-function TodosList({ todos, onToggleTodo}) {
+function TodosList({ todos }) {
+	console.log(todos);
 	return (
 		<div>
 			{todos.map(todo => 
-				<TodoItem 
+				<ConnectedTodoItem 
 					key={todo.id}
-					todo={todo}
-					onToggleTodo={onToggleTodo} />)}
+					todo={todo} />)}
 		</div>
 	)
 }
