@@ -9,7 +9,7 @@ export function doAddTodo(id, name) {
 	};
 }
 
-export function doToggleTodo(id) { 
+export function doToggleTodo(id) {
 	return {
 		type: TODO_TOGGLE,
 		todo: { id },

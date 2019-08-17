@@ -4,8 +4,8 @@ const FILTER_SET = 'FILTER_SET';
 
 const initialState = {
 	todos: [
-		{ id: '0', name: 'learn redux' }, 
-		{ id: '1', name: 'learn mobx' }
+		{ id: '0', name: 'learn redux', completed: false }, 
+		{ id: '1', name: 'learn mobx', completed: false }
 	],
 	filter: 'SHOW_ALL'
 };
@@ -13,12 +13,16 @@ const initialState = {
 export function todosReducer(state = initialState.todos, action) {
 	switch (action.type) {
 		case TODO_ADD:
-			return { ...state.todos, ...action, completed: false };
+			return { ...state, ...{ ...action.todo, completed: false } };
 		case TODO_TOGGLE:
-			return state.todos.map(todo => 
-				todo.id === action.todo.id ? 
-					Object.assign({}, todo, { completed: !todo.completed }) :
-					todo
+			console.log(state.map(todo => 
+				todo.id === action.todo.id 
+				? Object.assign({}, todo, { completed: !todo.completed }) 
+				: todo));
+			return state.map(todo => 
+				todo.id === action.todo.id 
+				? Object.assign({}, todo, { completed: !todo.completed }) 
+				: todo
 			)
 		default:
 			return state;
