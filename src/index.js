@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import { todosReducer, filterReducer } from './reducers/index';
 import TodosList from './components/TodosList';
@@ -35,16 +35,27 @@ function TodoApp() {
 	);
 }
 
-function render() {
-	ReactDOM.render(
-		<TodoApp />,
-		document.getElementById('root')
-	);
+function mapStateToProps(state) {
+	return {
+	  todos: state.todoState,
+	};
 }
 
-store.subscribe(render);
+function mapDispatchToProps(dispatch) {
+	return {
+		onToggleTodo: id => dispatch(doToggleTodo(id))
+	}
+}
 
-render();
+const ConnectedTodoApp = connect(mapStateToProps, mapDispatchToProps)(TodoApp);
+
+ReactDOM.render(
+	<Provider store={store}>
+		<ConnectedTodoApp />
+	</Provider>,
+	document.getElementById('root')
+);
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
